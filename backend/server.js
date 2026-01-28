@@ -20,7 +20,7 @@ connectDB();
 // );
 app.use(cors({
   origin: [
-    "https://food-delivery-parth.vercel.app", // Your Live Frontend
+    "https://food-delivery-7phs.vercel.app", // Your Live Frontend
     "http://localhost:5173"                  // Your Local Test
   ],
   credentials: true,
