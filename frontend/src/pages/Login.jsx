@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Mail, Lock, ArrowRight } from "lucide-react";
 import toast from 'react-hot-toast';
+import { API_URL } from '../api';
 export default function Login() {
   // 1. Logic: State to capture user input
   const [formData, setFormData] = useState({
@@ -40,7 +41,7 @@ const handleSubmit = async (e) => {
   const loadingToast = toast.loading('Verifying credentials...');
 
   try {
-    const res = await axios.post("http://localhost:5000/api/auth/login", formData);
+    const res = await axios.post(`${API_URL}/auth/login`, formData);
     
     localStorage.setItem("token", res.data.token);
     localStorage.setItem("user", JSON.stringify(res.data.user));

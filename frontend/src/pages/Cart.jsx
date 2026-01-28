@@ -1,114 +1,11 @@
-// export default function Cart() {
-//   return (
-//     <div className="p-10">
-//       <h1 className="text-2xl font-bold bg-amber-600 text-blue-900">Your Cart</h1>
-//       <p>Cart items will appear here</p>
-//     </div>
-//   )
-// }
-
-// import React from 'react';
-// import { useCart } from '../context/CartContext';
-// import { Trash2, Plus, Minus } from 'lucide-react';
-
-// const Cart = () => {
-//   const { cartItems, addToCart, removeFromCart, cartCount } = useCart();
-  
-//   // Calculate Subtotal logic
-//   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-//   const deliveryFee = subtotal > 0 ? 5 : 0;
-//   const total = subtotal + deliveryFee;
-
-//   if (cartItems.length === 0) {
-//     return (
-//       <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
-//         <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" alt="Empty Cart" className="w-40 h-40 opacity-20" />
-//         <h2 className="text-2xl font-bold text-gray-400">Your cart is empty</h2>
-//       </div>
-//     );
-//   }
-
-//   return (
-//     <div className="max-w-7xl mx-auto px-6 py-12">
-//       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-        
-//         {/* Left Side: Delivery Information Placeholder */}
-//         <div className="lg:col-span-2 space-y-8">
-//           <h2 className="text-3xl font-bold text-gray-800">Delivery Information</h2>
-//           <form className="grid grid-cols-2 gap-4">
-//             <input type="text" placeholder="First name" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="Last name" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="email" placeholder="Email address" className="col-span-2 border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="Street" className="col-span-2 border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="City" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="State" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="Zip code" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="Country" className="border p-3 rounded-lg outline-none focus:border-orange-500" />
-//             <input type="text" placeholder="Phone" className="col-span-2 border p-3 rounded-lg outline-none focus:border-orange-500" />
-//           </form>
-//         </div>
-
-//         {/* Right Side: Cart Totals */}
-//         <div className="bg-gray-50 p-8 rounded-2xl h-fit shadow-sm space-y-6">
-//           <h2 className="text-2xl font-bold text-gray-800 border-b pb-4">Cart Totals</h2>
-          
-//           <div className="space-y-4 text-gray-600">
-//             <div className="flex justify-between">
-//               <span>Subtotal</span>
-//               <span className="font-bold">${subtotal}</span>
-//             </div>
-//             <div className="flex justify-between">
-//               <span>Delivery Fee</span>
-//               <span className="font-bold">${deliveryFee}</span>
-//             </div>
-//             <hr />
-//             <div className="flex justify-between text-xl text-gray-800 font-extrabold">
-//               <span>Total</span>
-//               <span>${total}</span>
-//             </div>
-//           </div>
-
-//           <button className="w-full bg-orange-600 text-white py-4 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg active:scale-95">
-//             PROCEED TO PAYMENT
-//           </button>
-//         </div>
-
-//       </div>
-
-//       {/* Item List Section Below */}
-//       <div className="mt-16 space-y-6">
-//          <h3 className="text-xl font-bold text-gray-800">Review Your Items</h3>
-//          {cartItems.map((item) => (
-//            <div key={item._id} className="flex items-center justify-between bg-white border-b pb-4">
-//               <div className="flex items-center gap-4">
-//                 <img src={item.image} alt={item.name} className="w-20 h-20 object-cover rounded-lg" />
-//                 <div>
-//                   <h4 className="font-bold">{item.name}</h4>
-//                   <p className="text-orange-600 font-bold">${item.price}</p>
-//                 </div>
-//               </div>
-//               <div className="flex items-center gap-4 bg-gray-100 p-2 rounded-full">
-//                 <button onClick={() => removeFromCart(item._id)} className="p-1 hover:text-red-500"><Minus size={18} /></button>
-//                 <span className="font-bold w-6 text-center">{item.quantity}</span>
-//                 <button onClick={() => addToCart(item)} className="p-1 hover:text-green-500"><Plus size={18} /></button>
-//               </div>
-//            </div>
-//          ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Cart;
-
 import React, { useState } from 'react'; // Add useState
 import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import axios from 'axios'; // Import axios for the API call
 import toast from 'react-hot-toast';
-
+import { API_URL } from '../api';
 const Cart = () => {
-  const { cartItems, addToCart, removeFromCart, subtotal } = useCart();
+  const { cartItems, addToCart, removeFromCart, subtotal,token } = useCart();
   const deliveryFee = subtotal > 0 ? 5 : 0;
   const total = subtotal + deliveryFee;
 
@@ -159,8 +56,8 @@ const Cart = () => {
   };
 
   try {
-    const response = await axios.post("http://localhost:5000/api/orders/place", orderData);
-    
+    // const response = await axios.post("http://localhost:5000/api/orders/place", orderData);
+    const response = await axios.post(`${API_URL}/orders/place`, orderData, { headers: { token } });
     if (response.data.success) {
       // 1. Extract the session_url sent by your orderController.js
       const { session_url } = response.data;

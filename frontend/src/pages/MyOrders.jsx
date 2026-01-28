@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom'; // 1. ADD THIS IMPORT
+import { API_URL } from '../api';
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate(); // 2. ADD THIS DECLARATION
   const fetchOrders = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/orders/userorders", { userId: user.id });
+      // const response = await axios.post("http://localhost:5000/api/orders/userorders", { userId: user.id });
+      const response = await axios.post(`${API_URL}/orders/userorders`, { userId: user.id });
       if (response.data.success) {
         setOrders(response.data.data);
       }

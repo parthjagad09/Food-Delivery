@@ -10,15 +10,22 @@ const app = express();
 connectDB();
 
 // 2. Middleware to handle CORS (Using your robust Expense Tracker config)
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173", // Vite's default port
-    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
+// app.use(
+//   cors({
+//     origin: process.env.CLIENT_URL || "http://localhost:5173", // Vite's default port
+//     methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+//     credentials: true,
+//     allowedHeaders: ["Content-Type", "Authorization"],
+//   })
+// );
+app.use(cors({
+  origin: [
+    "https://food-delivery-parth.vercel.app", // Your Live Frontend
+    "http://localhost:5173"                  // Your Local Test
+  ],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization", "token"] // Added 'token'
+}));
 // 3. Built-in Middleware
 app.use(express.json());
 

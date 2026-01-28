@@ -3,11 +3,11 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // 1. Added useNavigate
 import { Package, Truck, CheckCircle, ChefHat, ExternalLink, LogOut } from 'lucide-react';
 import toast from 'react-hot-toast';
-
+import { API_URL } from '../api';
 const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const navigate = useNavigate(); // 2. Initialize navigate
-  const url = "http://localhost:5000";
+  // const url = "http://localhost:5000";
 
   // 3. Strict Logout Function
   const handleLogout = () => {
@@ -20,7 +20,7 @@ const AdminOrders = () => {
   };
 
   const fetchOrders = async () => {
-    const response = await axios.get(`${url}/api/orders/list`);
+    const response = await axios.get(`${API_URL}/orders/list`);
     if (response.data.success) {
       setOrders(response.data.data.reverse());
     }
@@ -28,7 +28,7 @@ const AdminOrders = () => {
 
   const handleStatusChange = async (orderId, status) => {
     try {
-      const response = await axios.patch(`${url}/api/orders/update-status`, {
+      const response = await axios.patch(`${API_URL}/orders/update-status`, {
         orderId,
         newStatus: status
       });
@@ -43,74 +43,6 @@ const AdminOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
-
-  // return (
-  //   <div className="p-10 bg-slate-50 min-h-screen">
-  //     {/* 4. Updated Header with Logout Button */}
-  //     <div className="flex justify-between items-center mb-10">
-  //       <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3">
-  //         <Package className="text-orange-500" /> Active Shipments
-  //       </h1>
-  //       <button 
-  //         onClick={handleLogout}
-  //         className="flex items-center gap-2 px-6 py-3 bg-red-50 text-red-600 font-bold rounded-2xl hover:bg-red-100 transition-all"
-  //       >
-  //         <LogOut size={18} /> Logout
-  //       </button>
-  //     </div>
-
-  //     <div className="grid gap-6">
-  //       {orders.map((order) => (
-  //         <div key={order._id} className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
-  //           <div className="flex-1">
-  //              <div className="flex items-center gap-2 mb-2">
-  //                <span className="text-[10px] font-bold bg-slate-100 px-3 py-1 rounded-full text-slate-500 uppercase tracking-widest">
-  //                  ID: {order._id.slice(-6)}
-  //                </span>
-  //                <span className="text-[10px] font-bold bg-orange-100 px-3 py-1 rounded-full text-orange-600 uppercase tracking-widest">
-  //                  {order.status}
-  //                </span>
-  //              </div>
-  //              <h3 className="text-lg font-black text-slate-800">
-  //                 {order.address.city} Delivery — {order.address.street}
-  //              </h3>
-  //           </div>
-
-  //           <div className="flex flex-wrap gap-2">
-  //             <button onClick={() => handleStatusChange(order._id, "Food Processing")} className="btn-status">
-  //               <ChefHat size={16}/> Prep
-  //             </button>
-  //             <button onClick={() => handleStatusChange(order._id, "Out for Delivery")} className="btn-status">
-  //               <Truck size={16}/> Out
-  //             </button>
-  //             <button onClick={() => handleStatusChange(order._id, "Delivered")} className="btn-status text-green-600 bg-green-50 hover:bg-green-100">
-  //               <CheckCircle size={16}/> Deliver
-  //             </button>
-  //             <a href={`/ordertracker/${order._id}`} target="_blank" rel="noreferrer" className="p-3 bg-slate-900 text-white rounded-2xl">
-  //               <ExternalLink size={18}/>
-  //             </a>
-  //           </div>
-  //         </div>
-  //       ))}
-  //     </div>
-
-  //     <style jsx>{`
-  //       .btn-status {
-  //         display: flex;
-  //         align-items: center;
-  //         gap: 8px;
-  //         padding: 12px 20px;
-  //         border-radius: 16px;
-  //         font-weight: 800;
-  //         font-size: 14px;
-  //         background: #f8fafc;
-  //         color: #64748b;
-  //         transition: all 0.2s;
-  //       }
-  //       .btn-status:hover { background: #f1f5f9; color: #f97316; }
-  //     `}</style>
-  //   </div>
-  // );
   return (
   <div className="p-4 sm:p-10 bg-slate-50 min-h-screen">
     {/* Header: Adjusted padding and font size for mobile */}
@@ -173,7 +105,7 @@ const AdminOrders = () => {
     </div>
 
     {/* Adjusted Button Styles for better tap targets on mobile */}
-    <style jsx>{`
+    <style>{`
       .btn-status {
         display: flex;
         align-items: center;

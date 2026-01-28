@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-
+import { API_URL } from '../api';
 const AdminLogin = () => {
     const [data, setData] = useState({ email: "", password: "" });
     const navigate = useNavigate();
@@ -14,7 +14,8 @@ const AdminLogin = () => {
     const onLogin = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/user/admin-login", data);
+            // const response = await axios.post("http://localhost:5000/api/user/admin-login", data);
+            const response = await axios.post(`${API_URL}/user/admin-login`, data);
             if (response.data.success) {
                 // Store token and admin status
                 localStorage.setItem("token", response.data.token);

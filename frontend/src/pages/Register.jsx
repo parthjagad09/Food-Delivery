@@ -1,122 +1,9 @@
-// import { Link } from "react-router-dom"
-
-// export default function Register() {
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-//       <div className="bg-white p-6 rounded-lg shadow-md w-96">
-//         <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-
-//         <input
-//           type="text"
-//           placeholder="Name"
-//           className="w-full border p-2 rounded mb-3"
-//         />
-
-//         <input
-//           type="email"
-//           placeholder="Email"
-//           className="w-full border p-2 rounded mb-3"
-//         />
-
-//         <input
-//           type="password"
-//           placeholder="Password"
-//           className="w-full border p-2 rounded mb-4"
-//         />
-
-//         <button className="w-full bg-orange-500 text-white py-2 rounded hover:bg-orange-600">
-//           Register
-//         </button>
-
-//         <p className="text-sm text-center mt-4">
-//           Already have an account?{" "}
-//           <Link to="/login" className="text-orange-500">
-//             Login
-//           </Link>
-//         </p>
-//       </div>
-//     </div>
-//   )
-// }
-
-
-// import { Link } from "react-router-dom";
-// import { User, Mail, Lock, UserPlus } from "lucide-react";
-
-// export default function Register() {
-//   return (
-//     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
-//       <div className="max-w-4xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row-reverse">
-        
-//         {/* Right Side: Image/Brand Section */}
-//         <div className="md:w-1/2 bg-gray-900 p-12 text-white flex flex-col justify-center items-center text-center">
-//           <h2 className="text-4xl font-bold mb-4 text-white">Join the Family</h2>
-//           <p className="text-gray-400 mb-8">Sign up today and get your first delivery free!</p>
-//           <img 
-//             src="https://images.unsplash.com/photo-1513104890138-7c749659a591" 
-//             alt="Burger" 
-//             className="w-64 h-64 object-cover rounded-2xl border-2 border-gray-700 shadow-2xl rotate-3"
-//           />
-//         </div>
-
-//         {/* Left Side: Form Section */}
-//         <div className="md:w-1/2 p-8 md:p-12">
-//           <div className="mb-10 text-left">
-//             <h2 className="text-3xl font-bold text-gray-800">Create Account</h2>
-//             <p className="text-gray-500 mt-2 text-sm">Fill in your details to get started.</p>
-//           </div>
-
-//           <form className="space-y-6">
-//             <div className="relative">
-//               <User className="absolute left-0 top-2 text-orange-600" size={18} />
-//               <input
-//                 type="text"
-//                 placeholder="Full Name"
-//                 className="w-full border-b border-gray-300 focus:border-orange-500 p-2 pl-8 outline-none bg-transparent"
-//               />
-//             </div>
-
-//             <div className="relative">
-//               <Mail className="absolute left-0 top-2 text-orange-600" size={18} />
-//               <input
-//                 type="email"
-//                 placeholder="Email"
-//                 className="w-full border-b border-gray-300 focus:border-orange-500 p-2 pl-8 outline-none bg-transparent"
-//               />
-//             </div>
-
-//             <div className="relative">
-//               <Lock className="absolute left-0 top-2 text-orange-600" size={18} />
-//               <input
-//                 type="password"
-//                 placeholder="Password"
-//                 className="w-full border-b border-gray-300 focus:border-orange-500 p-2 pl-8 outline-none bg-transparent"
-//               />
-//             </div>
-
-//             <button className="w-full bg-orange-600 text-white py-4 rounded-full font-bold hover:bg-orange-700 transition shadow-xl mt-4">
-//               Register Now
-//             </button>
-//           </form>
-
-//           <p className="text-sm text-center mt-8 text-gray-500">
-//             Already a member?{" "}
-//             <Link to="/login" className="text-orange-600 font-bold hover:underline">
-//               Log In
-//             </Link>
-//           </p>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useState } from "react"; // Added state
 import { Link, useNavigate } from "react-router-dom"; // Added navigate
 import axios from "axios"; // Added axios
 import { User, Mail, Lock } from "lucide-react";
 import toast from 'react-hot-toast';
-
+import { API_URL } from '../api';
 export default function Register() {
   // 1. State to store user input
   const [formData, setFormData] = useState({
@@ -150,7 +37,7 @@ const handleSubmit = async (e) => {
   const loadingToast = toast.loading('Creating your account...');
 
   try {
-    const res = await axios.post("http://localhost:5000/api/auth/register", formData);
+    const res = await axios.post(`${API_URL}/auth/register`, formData);
     
     // Success Toast with Green Bar
     toast.success('Registration Successful!', {

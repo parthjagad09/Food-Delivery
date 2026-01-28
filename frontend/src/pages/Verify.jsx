@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-
+import { API_URL } from '../api';
 const Verify = () => {
   const [searchParams] = useSearchParams();
   const success = searchParams.get("success");
@@ -11,8 +11,8 @@ const Verify = () => {
   useEffect(() => {
     const verify = async () => {
       // Calling the backend route you just created
-      const response = await axios.post("http://localhost:5000/api/orders/verify", { success, orderId });
-      
+      // const response = await axios.post("http://localhost:5000/api/orders/verify", { success, orderId });
+      const response = await axios.post(`${API_URL}/orders/verify`, { success, orderId });
       if (response.data.success) {
         // SUCCESS: Direct to live map tracking
         navigate(`/ordertracker/${orderId}`);

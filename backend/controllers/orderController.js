@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Create the payment session and save the order
 const placeOrder = async (req, res) => {
-    const frontend_url = "http://localhost:5173";
+    // const frontend_url = "http://localhost:5173";
     try {
         // 1. Save the order to MongoDB first to get an ID for tracking
         const newOrder = new Order({
@@ -29,7 +29,7 @@ const placeOrder = async (req, res) => {
             price_data: {
                 currency: "inr",
                 product_data: { name: "Delivery Fee" },
-                unit_amount: 5 * 100 * 80, 
+                unit_amount: 5 * 100 * 80,
             },
             quantity: 1
         });
@@ -38,8 +38,8 @@ const placeOrder = async (req, res) => {
         const session = await stripe.checkout.sessions.create({
             line_items: line_items,
             mode: 'payment',
-            success_url: `${frontend_url}/verify?success=true&orderId=${newOrder._id}`,
-            cancel_url: `${frontend_url}/verify?success=false&orderId=${newOrder._id}`,
+            success_url: `https://food-delivery-parth.vercel.app/verify?success=true&orderId=${newOrder._id}`,
+            cancel_url: `https://food-delivery-parth.vercel.app/verify?success=false&orderId=${newOrder._id}`,
         });
 
         res.json({ success: true, session_url: session.url });
@@ -78,4 +78,4 @@ const updateStatus = async (req, res) => {
         res.json({ success: false, message: "Error updating status" });
     }
 };
-module.exports = { placeOrder, verifyOrder,updateStatus};
+module.exports = { placeOrder, verifyOrder, updateStatus };
