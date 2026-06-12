@@ -1,20 +1,3 @@
-// const mongoose = require('mongoose');
-
-// const RestaurantSchema = new mongoose.Schema({
-//   name: String,
-//   image: String,
-//   rating: Number,
-//   cuisines: [String],
-//   menu: [
-//     {
-//       name: String,
-//       price: Number,
-//       isVeg: Boolean
-//     }
-//   ]
-// });
-
-// module.exports = mongoose.model('Restaurant', RestaurantSchema);
 const mongoose = require('mongoose');
 
 const restaurantSchema = new mongoose.Schema({
